@@ -1,0 +1,17 @@
+Batches to avoid fitting to just your last sample and you train faster. Batches of 32,64. Rarely 128
+
+Although inputs are shown graphically as collumns, they are rows in the matrix.
+
+The weights for a neuron are shown in collumns. 
+
+All matrices are row major. columns determined by matrix.size() and rows by matrix[0].size()
+
+
+Deep learning is when there are more than 2 hidden layers
+
+Classification is a type of neural network that assigns the input data into defined categories,
+Regression gives them a numerical value and clustering groups similar data together without predefined values
+
+Dense layers are the layers where each neuron is connected to every neuron of the next layer
+
+Activation functions include both step functions and Rectified Linear (ReLU) function

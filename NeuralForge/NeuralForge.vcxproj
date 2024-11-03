@@ -76,6 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\dev\C++ libs\GLEW\include;Sources;C:\dev\C++ libs\Freetype\include;C:\dev\C++ libs\glfw-3.3.8.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -90,6 +91,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\dev\C++ libs\GLEW\include;Sources;C:\dev\C++ libs\Freetype\include;C:\dev\C++ libs\glfw-3.3.8.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -102,12 +104,16 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions);GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <AdditionalIncludeDirectories>C:\dev\C++ libs\GLEW\include;Sources;C:\dev\C++ libs\Freetype\include;C:\dev\C++ libs\glfw-3.3.8.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\dev\C++ libs\GLEW\lib\Release\x64;C:\dev\C++ libs\glfw-3.3.8.bin.WIN64\lib-vc2022;C:\dev\C++ libs\Freetype\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>glew32s.lib;glfw3.lib;opengl32.lib;freetype.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -118,6 +124,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>C:\dev\C++ libs\GLEW\include;Sources;C:\dev\C++ libs\Freetype\include;C:\dev\C++ libs\glfw-3.3.8.bin.WIN64\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -128,6 +135,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Sources\Camera.cpp" />
+    <ClCompile Include="Sources\Common.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Sources\BinariesManager.hpp" />
+    <ClInclude Include="Sources\Camera.hpp" />
+    <ClInclude Include="Sources\Common.hpp" />
+    <ClInclude Include="Sources\Delaunay2D.hpp" />
+    <ClInclude Include="Sources\NF.hpp" />
+    <ClInclude Include="Sources\Polygons2D.hpp" />
+    <ClInclude Include="Sources\Settings.hpp" />
+    <ClInclude Include="Sources\Shader.hpp" />
+    <ClInclude Include="Sources\SweepTriangulation.hpp" />
+    <ClInclude Include="Sources\Time.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
