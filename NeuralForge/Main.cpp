@@ -60,19 +60,19 @@ int main(void)
 
 
 
-	vector<vector<float>> X = { { 1, 2, 3, 2.5 },{2.0, 5.0, -1.0, 2.0}, {-1.5, 2.7, 3.3, -0.8} };
-	vector<vector<float>> W1_ = { { 0.2, 0.8, -0.5, 1.0},{0.5, -0.91, 0.26, -0.5},{-0.26, -0.27, 0.17, 0.87} };
-	vector<vector<float>> W1 = transpose(W1_);
-	vector<float> b1 = { 2,3,0.5 };
-
-
-	vector<vector<float>> W2_ = { {0.1, -0.14, 0.5}, {-0.5, 0.12, -0.33}, {-0.44, 0.73, -0.13} };
-	vector<vector<float>> W2 = transpose(W2_);
-	vector<float> b2 = { -1, 2, -0.5 };
-
 	vector<vector<float>> outputLayer1, outputLayer2;
 
+	vector<vector<float>> X = { { 1, 2, 3, 2.5 },{2.0, 5.0, -1.0, 2.0}, {-1.5, 2.7, 3.3, -0.8} };
+	vector<vector<float>> W1 = createKaimingWeights(X[0].size(), 5);
+	vector<float> b1 = { 2,3,0.5,0,0 };
+	
 	outputLayer1 = neuronMult(X, W1, b1);
+	ReLU(outputLayer1);
+
+	vector<vector<float>> W2 = createKaimingWeights(outputLayer1[0].size(), 2);
+	vector<float> b2 = { -1, 2 };
+
+
 	outputLayer2 = neuronMult(outputLayer1, W2, b2);
 
 
@@ -81,23 +81,13 @@ int main(void)
 	print(outputLayer2);
 
 
-	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-	std::mt19937 rng(seed);
 
-	// Standard normal distribution (mean = 0, stddev = 1)
-	std::normal_distribution<float> dist(0.0f, 1.0f);
+	vector<float> output = { 4.6,1.21,2.385 };
+	
+	print(output);
 
-	// Generate a 4x3 matrix of random numbers
-	std::vector<std::vector<float>> weights(4, std::vector<float>(3));
 
-	for (size_t i = 0; i < weights.size(); ++i) {
-		for (size_t j = 0; j < weights[i].size(); ++j) {
-			weights[i][j] = dist(rng);
-		}
-	}
-
-	print(weights);
-
+	Forward nf(X, { 5,3,2 });
 
 	mainCounter.endCounter();
 
