@@ -34,7 +34,7 @@ using namespace std;
 // Constants
 constexpr double PI = 3.14159265358979323846;
 constexpr double halfPI = PI / 2;
-constexpr double invPI = 1.0f/PI;
+constexpr double invPI = 1.0f / PI;
 
 constexpr float inv3 = 1.0f / 3.0f;
 constexpr float inv180 = 1.0f / 180.0f;
@@ -390,6 +390,36 @@ void print_(const std::string& name, const std::vector<std::vector<T>>& matrix) 
 	std::cout << ss.str();
 }
 
+template<typename T>
+void print_(const std::string& name, const std::vector<std::vector<std::vector<T>>>& tensor) {
+	std::stringstream ss;
+	ss << name << ":  \n{{{";
+
+	for (size_t i = 0; i < tensor.size(); ++i) {
+		if (i != 0) {
+			ss << "}, \n\n  {";
+		}
+
+		for (size_t j = 0; j < tensor[i].size(); ++j) {
+			if (j != 0) {
+				ss << ", \n   {";
+			}
+			else {
+				ss << "{";
+			}
+
+			for (size_t k = 0; k < tensor[i][j].size(); ++k) {
+				ss << tensor[i][j][k];
+				if (k != tensor[i][j].size() - 1) {
+					ss << ", ";
+				}
+			}
+			ss << "}";
+		}
+	}
+	ss << "}}}\n\n\n";
+	std::cout << ss.str();
+}
 
 
 #define print(var) print_(#var, var)
@@ -442,7 +472,7 @@ std::array<float, 4> inverseQuaternion(const std::array<float, 4>& q);
 std::array<float, 4> multiplyQuaternions(const std::array<float, 4>& a, const std::array<float, 4>& b);
 
 // q * p * q^-1
-p3 rotatePoint(const p3& point,const float& angle, const p3& axis);
+p3 rotatePoint(const p3& point, const float& angle, const p3& axis);
 
 void rotate3D(std::vector<p3>& vertices, const p3& centroid, float angleX, float angleY, float angleZ);
 

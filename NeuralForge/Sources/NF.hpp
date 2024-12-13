@@ -48,11 +48,13 @@ vector<vector<float>> matMult(const vector<vector<float>>& input1, const vector<
 
 //TEST IF USING REFERENCES INSIDE LOOPS REDUCES INDEXING OVERHEAD
 
+//Performs the matrix multiplication of inputs and weights, and adds the biases
 vector<vector<float>> neuronMult(const vector<vector<float>>& inputs, const vector<vector<float>>& weights, const vector<float>& biases) {
 
 	if (inputs[0].size() != weights.size())
 	{
-		terminate_with_error("Error: Inputs row size must be equal to weights column size");
+		//number of columns is the size of a row as number of rows is the size of a column
+		terminate_with_error("Error: Number of columns in inputs must be equal to number of rows in weights");
 	}
 	if (weights[0].size() != biases.size())
 	{
@@ -96,13 +98,13 @@ vector<vector<float>> transpose(const vector<vector<float>>& input) {
 }
 
 
-//Ideal if ReLU
+//Ideal if ReLU ius been used
 std::vector<std::vector<float>> createKaimingWeights(size_t rows, size_t columns) {
 	//n_in = rows (neurons previous layer), n_out = columns (neurons current layer)
 
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-	//std::mt19937 rng(seed);
-	std::mt19937 rng(0);
+	std::mt19937 rng(seed);
+	//std::mt19937 rng(0);
 	float stddev = std::sqrt(2.0f / rows);
 	std::normal_distribution<float> dist(0.0f, stddev);
 
@@ -123,22 +125,27 @@ void ReLU(vector<vector<float>>& input) {
 	}
 }
 
-void softmax(std::vector<float>& input) {
-	// Find the maximum value in the input for numerical stability
-	float max_input = *std::max_element(input.begin(), input.end());
+void softmax(vector<vector<float>>& input) {
+	for (auto& crnt : input)
+	{
+		//It will be substracting the maximun value to avoid reaching overflow while exponentiating
+		float maxValue = *std::max_element(crnt.begin(), crnt.end());
 
-	// Exponentiate each element and compute the sum
-	float sum = 0.0f;
-	for (auto& i : input) {
-		i = std::exp(i - max_input);
-		sum += i;
-	}
+		// Exponentiate each element and compute the sum
+		float sum = 0.0f;
+		for (auto& i : crnt) {
+			i = std::exp(i - maxValue); //all values of i will be between 0 and 1 after the substration
+			sum += i;
+		}
 
-	// Normalize the exponentials to get probabilities
-	for (auto& i : input) {
-		i /= sum;
+		// Normalize the exponentials to get probabilities
+		for (auto& i : crnt) {
+			i /= sum;
+		}
 	}
 }
+
+
 
 
 struct NF {
@@ -148,21 +155,47 @@ struct NF {
 
 	vector<vector<float>> currentOutput;
 
+	int n_layers;
+
 	NF(vector<vector<float>> input_, vector<int> neuronsPerLayer) :input(input_)
 	{
-		currentOutput = input;
+		int currentRows = input[0].size();
 
-		int n_layers = neuronsPerLayer.size();
+		n_layers = neuronsPerLayer.size();
 		int n_batches = input.size();
 
-		for (size_t i = 0; i < neuronsPerLayer.size(); i++)
+		for (size_t i = 0; i < n_layers; i++) //the last layer of neuronsPerLayer is the output
 		{
-			//esto está mal, solo es valida para la creación. Para un forward normal no lo tiene que rehacer
-			weights.push_back(createKaimingWeights(currentOutput[0].size(),neuronsPerLayer[i]));
-			biases.push_back(weig)
-			
+			weights.push_back(createKaimingWeights(currentRows, neuronsPerLayer[i]));
+
+			vector<float>interm(weights[i][0].size(), 0);
+			biases.push_back(interm);
+
+			currentRows = neuronsPerLayer[i];
 
 		}
-	};
 
+	};
+	void forward() {
+
+		currentOutput = input;
+		print(currentOutput);
+		for (size_t i = 0; i < n_layers; i++)
+		{
+			
+			currentOutput = neuronMult(currentOutput, weights[i], biases[i]);
+
+			if (i < n_layers-1)
+				ReLU(currentOutput);
+			else
+				softmax(currentOutput);
+			
+			print(currentOutput);
+		}
+
+
+	}
 };
+
+
+		

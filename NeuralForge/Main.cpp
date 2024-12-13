@@ -77,19 +77,34 @@ int main(void)
 
 
 	//print(X);
-	print(outputLayer1);
-	print(outputLayer2);
+	/*print(outputLayer1);
+	print(outputLayer2);*/
 
 
 
-	vector<float> output = { 4.6,1.21,2.385 };
-	
-	print(output);
+	//vector<float> output = { 4.6,1.21,2.385 };
+	//
+	//print(output);
 
 
-	Forward nf(X, { 5,3,2 });
+	NF nf(X, { 8,5,3,2 });
+	print(nf.input);
+	print(nf.weights);
+	print(nf.biases);
+
+	nf.forward();
+
+
+
+
+
+
 
 	mainCounter.endCounter();
+
+
+
+
 
 
 

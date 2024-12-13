@@ -15,3 +15,8 @@ Regression gives them a numerical value and clustering groups similar data toget
 Dense layers are the layers where each neuron is connected to every neuron of the next layer
 
 Activation functions include both step functions and Rectified Linear (ReLU) function
+
+Softmax is an activation function for the output layer. The objetive is to classificate and exponentiating
+ removes the negative values while assigning more value to larger outputs.
+
+Softmax mixes well with cross-entropy loss because this last one uses a natural log
